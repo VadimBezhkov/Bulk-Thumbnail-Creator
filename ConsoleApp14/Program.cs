@@ -22,7 +22,7 @@ namespace ConsoleApp14
         static int width, height;
         static int count = 0;
         public string Name { get; set; }
-        //static object locker = new object();
+        static object locker = new object();
         public void Info()
         {
             Console.WriteLine(new string ('-',119));
@@ -51,6 +51,9 @@ namespace ConsoleApp14
         }
         static void Main(string[] args)
         {
+            Program start = new Program();
+            start.Info();
+
             if (!Directory.Exists(path2))
             {
                 Directory.CreateDirectory(path2);
@@ -63,8 +66,6 @@ namespace ConsoleApp14
 
             while (true)
             {
-                Program start = new Program();
-                start.Info();
                 start.ActionMenu();
 
                 Operation op;
@@ -101,8 +102,8 @@ namespace ConsoleApp14
         }
         public static void Resize()
         {
-            //lock (locker)
-            //{
+            lock (locker)
+            {
                 string[] files = Directory.GetFiles(path);
                 foreach (string image in files)
                 {
@@ -112,7 +113,7 @@ namespace ConsoleApp14
                     //Console.WriteLine($"name {image}  images count {count}");
                     img.Save($"{path2}\\final {count} .jpg");
                 }
-            //}
+            }
         }
         public static void Rename(object x)
         {
