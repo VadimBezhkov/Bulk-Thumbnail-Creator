@@ -12,7 +12,8 @@ namespace ConsoleApp14
     enum Operation:byte
     {
         Resize=1,
-        Rename=2
+        Rename
+        Exit
     }
     class Program
     {
@@ -26,6 +27,7 @@ namespace ConsoleApp14
         {
             Console.WriteLine("Press enter 1 - Resize all image");
             Console.WriteLine("Press enter 2 - Rename all image");
+            Console.WriteLine("Press enter 3 - Exit");
         }
 
         public void ResizeParametrs()
@@ -54,6 +56,7 @@ namespace ConsoleApp14
                         Console.WriteLine(myThread.Name);
                         myThread.Start();
                     }
+
                     break;
                 case Operation.Rename:
                     {
@@ -64,8 +67,11 @@ namespace ConsoleApp14
                         Console.WriteLine(myThreadRename.Name);
                         myThreadRename.Start(start.Name);
                     }
-                    break;
 
+                    break;
+                case Operation.Exit:
+                    Environment.Exit(0);
+                    break;
             }
 
             if (!Directory.Exists(path2))
