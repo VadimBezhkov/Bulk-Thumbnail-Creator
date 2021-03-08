@@ -12,7 +12,7 @@ namespace ConsoleApp14
     enum Operation:byte
     {
         Resize=1,
-        Rename
+        Rename,
         Exit
     }
     class Program
