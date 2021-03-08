@@ -23,8 +23,18 @@ namespace ConsoleApp14
         static int count = 0;
         public string Name { get; set; }
         //static object locker = new object();
+        public void Info()
+        {
+            Console.WriteLine(new string ('-',119));
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\t \t \t \t \t Homework Bulk Thumbnail  Creator");
+            Console.WriteLine("\t \t \t \t \t         By Vadim Bezhkov");
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine(new string('-', 120));
+        }
         public void ActionMenu()
         {
+            Console.ForegroundColor = ConsoleColor.Magenta;
             Console.WriteLine("Press enter 1 - Resize all image");
             Console.WriteLine("Press enter 2 - Rename all image");
             Console.WriteLine("Press enter 3 - Exit");
@@ -54,6 +64,7 @@ namespace ConsoleApp14
             while (true)
             {
                 Program start = new Program();
+                start.Info();
                 start.ActionMenu();
 
                 Operation op;
