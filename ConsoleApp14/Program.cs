@@ -46,6 +46,7 @@ namespace ConsoleApp14
 
             Operation op;
             Enum.TryParse(Console.ReadLine(), out op);
+
             switch (op)
             {
                 case Operation.Resize:
