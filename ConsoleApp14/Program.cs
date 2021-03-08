@@ -78,7 +78,6 @@ namespace ConsoleApp14
                             start.ResizeParametrs();
                             Thread myThread = new Thread(new ThreadStart(Resize));
                             myThread.IsBackground = true;
-                            Console.WriteLine(myThread.Name);
                             myThread.Start();
                         }
 
@@ -89,7 +88,6 @@ namespace ConsoleApp14
                             start.Name = Console.ReadLine();
                             Thread myThreadRename = new Thread(new ParameterizedThreadStart(Rename));
                             myThreadRename.IsBackground = true;
-                            Console.WriteLine(myThreadRename.Name);
                             myThreadRename.Start(start.Name);
                         }
 
@@ -110,7 +108,6 @@ namespace ConsoleApp14
                     Bitmap images = new Bitmap(image);
                     Bitmap img = new Bitmap(images, new Size(width, height));
                     count++;
-                    //Console.WriteLine($"name {image}  images count {count}");
                     img.Save($"{path2}\\final {count} .jpg");
                 }
             }
