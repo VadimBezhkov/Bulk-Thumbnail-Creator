@@ -41,40 +41,6 @@ namespace ConsoleApp14
         }
         static void Main(string[] args)
         {
-            Program start = new Program();
-            start.ActionMenu();
-
-            Operation op;
-            Enum.TryParse(Console.ReadLine(), out op);
-
-            switch (op)
-            {
-                case Operation.Resize:
-                    {
-                        start.ResizeParametrs();
-                        Thread myThread = new Thread(new ThreadStart(Resize));
-                        myThread.IsBackground = true;
-                        Console.WriteLine(myThread.Name);
-                        myThread.Start();
-                    }
-
-                    break;
-                case Operation.Rename:
-                    {
-                        Console.WriteLine("Enter new name");
-                        start.Name = Console.ReadLine();
-                        Thread myThreadRename = new Thread(new ParameterizedThreadStart(Rename));
-                        myThreadRename.IsBackground = true;
-                        Console.WriteLine(myThreadRename.Name);
-                        myThreadRename.Start(start.Name);
-                    }
-
-                    break;
-                case Operation.Exit:
-                    Environment.Exit(0);
-                    break;
-            }
-
             if (!Directory.Exists(path2))
             {
                 Directory.CreateDirectory(path2);
@@ -85,7 +51,42 @@ namespace ConsoleApp14
                 Directory.CreateDirectory(path);
             }
 
-            Console.ReadKey();
+            while (true)
+            {
+                Program start = new Program();
+                start.ActionMenu();
+
+                Operation op;
+                Enum.TryParse(Console.ReadLine(), out op);
+
+                switch (op)
+                {
+                    case Operation.Resize:
+                        {
+                            start.ResizeParametrs();
+                            Thread myThread = new Thread(new ThreadStart(Resize));
+                            myThread.IsBackground = true;
+                            Console.WriteLine(myThread.Name);
+                            myThread.Start();
+                        }
+
+                        break;
+                    case Operation.Rename:
+                        {
+                            Console.WriteLine("Enter new name");
+                            start.Name = Console.ReadLine();
+                            Thread myThreadRename = new Thread(new ParameterizedThreadStart(Rename));
+                            myThreadRename.IsBackground = true;
+                            Console.WriteLine(myThreadRename.Name);
+                            myThreadRename.Start(start.Name);
+                        }
+
+                        break;
+                    case Operation.Exit:
+                        Environment.Exit(0);
+                        break;
+                }
+            }
         }
         public static void Resize()
         {
@@ -97,7 +98,7 @@ namespace ConsoleApp14
                     Bitmap images = new Bitmap(image);
                     Bitmap img = new Bitmap(images, new Size(width, height));
                     count++;
-                    Console.WriteLine($"name {image}  images count {count}");
+                    //Console.WriteLine($"name {image}  images count {count}");
                     img.Save($"{path2}\\final {count} .jpg");
                 }
             //}
