@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp14
 {
-    enum Operation:byte
+    enum Operation : byte
     {
-        Resize=1,
+        Resize = 1,
         Rename,
         Exit
     }
@@ -25,7 +25,7 @@ namespace ConsoleApp14
         static object locker = new object();
         public void Info()
         {
-            Console.WriteLine(new string ('-',119));
+            Console.WriteLine(new string('-', 119));
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("\t \t \t \t \t Homework Bulk Thumbnail  Creator");
             Console.WriteLine("\t \t \t \t \t         By Vadim Bezhkov");
@@ -114,12 +114,15 @@ namespace ConsoleApp14
         }
         public static void Rename(object x)
         {
-            int count = 0;
-            string[] images = Directory.GetFiles(path2);
-            foreach (var item in images)
+            lock (locker)
             {
-                count++;
-                File.Move(item, $"{path2}\\{x} {count} .jpg");
+                int count = 0;
+                string[] images = Directory.GetFiles(path2);
+                foreach (var item in images)
+                {
+                    count++;
+                    File.Move(item, $"{path2}\\{x} {count} .jpg");
+                }
             }
         }
     }
