@@ -79,33 +79,22 @@ namespace ConsoleApp14
                             Thread myThread = new Thread(new ThreadStart(Resize));
                             myThread.IsBackground = true;
                             myThread.Start();
-                            Thread.Sleep(3000);
-
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine("All image resize!!!!!!!!");
-                            Console.WriteLine();
-                            Console.ResetColor();
                         }
 
                         break;
                     case Operation.Rename:
                         {
                             Console.WriteLine("Enter new name");
-
                             start.Name = Console.ReadLine();
                             Thread myThreadRename = new Thread(new ParameterizedThreadStart(Rename));
                             myThreadRename.IsBackground = true;
                             myThreadRename.Start(start.Name);
-
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine("All image rename!!!!");
-                            Console.WriteLine();
-                            Console.ResetColor();
                         }
 
                         break;
                     case Operation.Exit:
                         Environment.Exit(0);
+
                         break;
                     default:
                         Console.ForegroundColor = ConsoleColor.Cyan;
@@ -119,9 +108,10 @@ namespace ConsoleApp14
         }
         public static void Resize()
         {
-            //lock (locker)
-            //{
+            lock (locker)
+            {
                 string[] files = Directory.GetFiles(path);
+
                 foreach (string image in files)
                 {
                     Bitmap images = new Bitmap(image);
@@ -129,20 +119,33 @@ namespace ConsoleApp14
                     count++;
                     img.Save($"{path2}\\final {count} .jpg");
                 }
-            //}
+
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("All image resize!!!!!!!!");
+                Console.WriteLine();
+                Console.ResetColor();
+            }
         }
         public static void Rename(object x)
         {
-            //lock (locker)
-            //{
+            lock (locker)
+            {
                 int count = 0;
                 string[] images = Directory.GetFiles(path2);
+
                 foreach (var item in images)
                 {
                     count++;
                     File.Move(item, $"{path2}\\{x} {count} .jpg");
                 }
-            //}
+
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("All image rename!!!!");
+                Console.WriteLine();
+                Console.ResetColor();
+            }
         }
     }
 }
