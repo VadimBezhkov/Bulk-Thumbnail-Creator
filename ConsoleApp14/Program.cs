@@ -17,8 +17,8 @@ namespace ConsoleApp14
     }
     class Program
     {
-        private static string path = @"D:\MyImage";
-        private static string path2 = @"D:\MyImageSize";
+        private static string path = System.Configuration.ConfigurationManager.AppSettings["mypath"];
+        private static string path2 = System.Configuration.ConfigurationManager.AppSettings["resultpath"];
         static int width, height;
         static int count = 0;
         public string Name { get; set; }
@@ -43,9 +43,9 @@ namespace ConsoleApp14
         public void ResizeParametrs()
         {
             Console.WriteLine("Enter width");
-            Console.WriteLine("Enter height");
-
             int.TryParse(Console.ReadLine(), out width);
+
+            Console.WriteLine("Enter height");
             int.TryParse(Console.ReadLine(), out height);
 
         }
@@ -79,29 +79,48 @@ namespace ConsoleApp14
                             Thread myThread = new Thread(new ThreadStart(Resize));
                             myThread.IsBackground = true;
                             myThread.Start();
+                            Thread.Sleep(3000);
+
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("All image resize!!!!!!!!");
+                            Console.WriteLine();
+                            Console.ResetColor();
                         }
 
                         break;
                     case Operation.Rename:
                         {
                             Console.WriteLine("Enter new name");
+
                             start.Name = Console.ReadLine();
                             Thread myThreadRename = new Thread(new ParameterizedThreadStart(Rename));
                             myThreadRename.IsBackground = true;
                             myThreadRename.Start(start.Name);
+
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("All image rename!!!!");
+                            Console.WriteLine();
+                            Console.ResetColor();
                         }
 
                         break;
                     case Operation.Exit:
                         Environment.Exit(0);
                         break;
+                    default:
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.WriteLine();
+                        Console.WriteLine("Error enter number 1 or 2 or 3");
+                        Console.WriteLine();
+                        Console.ResetColor();
+                        break;
                 }
-            }
+            }   
         }
         public static void Resize()
         {
-            lock (locker)
-            {
+            //lock (locker)
+            //{
                 string[] files = Directory.GetFiles(path);
                 foreach (string image in files)
                 {
@@ -110,12 +129,12 @@ namespace ConsoleApp14
                     count++;
                     img.Save($"{path2}\\final {count} .jpg");
                 }
-            }
+            //}
         }
         public static void Rename(object x)
         {
-            lock (locker)
-            {
+            //lock (locker)
+            //{
                 int count = 0;
                 string[] images = Directory.GetFiles(path2);
                 foreach (var item in images)
@@ -123,7 +142,7 @@ namespace ConsoleApp14
                     count++;
                     File.Move(item, $"{path2}\\{x} {count} .jpg");
                 }
-            }
+            //}
         }
     }
 }
