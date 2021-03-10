@@ -53,11 +53,7 @@ namespace ConsoleApp14
 
                         break;
                     default:
-                        Console.ForegroundColor = ConsoleColor.Cyan;
-                        Console.WriteLine();
-                        Console.WriteLine("Error enter number 1 or 2 or 3");
-                        Console.WriteLine();
-                        Console.ResetColor();
+                        start.Default();
                         break;
                 }
             }   

@@ -38,7 +38,7 @@ namespace ConsoleApp14
                 Directory.CreateDirectory(path);
             }
         }
-        public void Info()
+        internal void Info()
         {
             Console.WriteLine(new string('-', 119));
             Console.ForegroundColor = ConsoleColor.Green;
@@ -47,7 +47,7 @@ namespace ConsoleApp14
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine(new string('-', 120));
         }
-        public void ActionMenu()
+        internal void ActionMenu()
         {
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Magenta;
@@ -56,7 +56,7 @@ namespace ConsoleApp14
             Console.WriteLine("Press enter 3 - Exit");
         }
 
-        public void ResizeParametrs()
+        internal void ResizeParametrs()
         {
             Console.WriteLine("Enter width");
             int.TryParse(Console.ReadLine(), out width);
@@ -64,6 +64,14 @@ namespace ConsoleApp14
             Console.WriteLine("Enter height");
             int.TryParse(Console.ReadLine(), out height);
 
+        }
+        internal void Default()
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine();
+            Console.WriteLine("Error enter number 1 or 2 or 3");
+            Console.WriteLine();
+            Console.ResetColor();
         }
         public static void Resize(object state)
         {
