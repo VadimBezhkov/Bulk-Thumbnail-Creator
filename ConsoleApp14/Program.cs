@@ -14,12 +14,14 @@ namespace ConsoleApp14
     {
         static void Main(string[] args)
         {
-            ManagerProgramm start = new ManagerProgramm();
+            ManagerProgramm start = new ManagerProgramm(true);
             start.Info();
 
             while (true)
             {
                 start.ActionMenu();
+                CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
+                CancellationToken token = cancelTokenSource.Token;
 
                 Operation op;
                 Enum.TryParse(Console.ReadLine(), out op);
@@ -29,11 +31,12 @@ namespace ConsoleApp14
                     case Operation.Resize:
                         {
                             start.ResizeParametrs();
-
-                            ThreadPool.QueueUserWorkItem(ManagerProgramm.Resize);
-                            //Thread myThread = new Thread(new ThreadStart(Resize));
-                                //myThread.IsBackground = true;
-                                //myThread.Start();
+                            Task task = new Task(() => ManagerProgramm.Resize(token));
+                            task.Start();
+                            Console.WriteLine("Enter Y to cancel the operation:");
+                            string s = Console.ReadLine();
+                            if (s == "Y" || s == "y")
+                                cancelTokenSource.Cancel();
                         }
 
                         break;
@@ -41,10 +44,8 @@ namespace ConsoleApp14
                         {
                             Console.WriteLine("Enter new name");
                             start.Name = Console.ReadLine();
-                            ThreadPool.QueueUserWorkItem(ManagerProgramm.Rename, start.Name);
-                            //Thread myThreadRename = new Thread(new ParameterizedThreadStart(Rename));
-                            //myThreadRename.IsBackground = true;
-                            //myThreadRename.Start(start.Name);
+                            Task task2 = new Task(ManagerProgramm.Rename, start.Name);
+                            task2.Start();
                         }
 
                         break;
@@ -56,7 +57,7 @@ namespace ConsoleApp14
                         start.Default();
                         break;
                 }
-            }   
+            }
         }
     }
 }

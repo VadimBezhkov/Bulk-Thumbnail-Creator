@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ConsoleApp14
@@ -12,6 +13,7 @@ namespace ConsoleApp14
     {
         Resize = 1,
         Rename,
+        Cancel,
         Exit
     }
     internal class ManagerProgramm
@@ -23,7 +25,7 @@ namespace ConsoleApp14
         internal static string path2 { get; set; }
 
         public string Name { get; set; }
-        public ManagerProgramm()
+        public ManagerProgramm(bool str)
         {
             path = System.Configuration.ConfigurationManager.AppSettings["mypath"];
             path2 = System.Configuration.ConfigurationManager.AppSettings["resultpath"];
@@ -37,6 +39,10 @@ namespace ConsoleApp14
             {
                 Directory.CreateDirectory(path);
             }
+        }
+        public ManagerProgramm()
+        {
+
         }
         internal void Info()
         {
@@ -53,7 +59,8 @@ namespace ConsoleApp14
             Console.ForegroundColor = ConsoleColor.Magenta;
             Console.WriteLine("Press enter 1 - Resize all image");
             Console.WriteLine("Press enter 2 - Rename all image");
-            Console.WriteLine("Press enter 3 - Exit");
+            Console.WriteLine("Press enter 3 - Cancel Resize");
+            Console.WriteLine("Press enter 4 - Exit");
         }
 
         internal void ResizeParametrs()
@@ -73,46 +80,53 @@ namespace ConsoleApp14
             Console.WriteLine();
             Console.ResetColor();
         }
-        public static void Resize(object state)
+        public static void Resize(CancellationToken token)
         {
-            lock (locker)
-            {
-                string[] files = Directory.GetFiles(path);
+            string[] files = Directory.GetFiles(path);
 
-                foreach (string image in files)
+            foreach (string image in files)
+            {
+                if (token.IsCancellationRequested)
                 {
-                    Bitmap images = new Bitmap(image);
-                    Bitmap img = new Bitmap(images, new Size(width, height));
-                    count++;
-                    img.Save($"{path2}\\final {count} .jpg");
+                    Console.Clear();
+                    Console.WriteLine(new string('-', 119));
+                    Console.WriteLine("Task canceled");
+                    Console.WriteLine(new string('-', 119));
+                    ManagerProgramm asd = new ManagerProgramm();
+                    asd.ActionMenu();
+                    return;
                 }
 
-                Console.WriteLine();
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("All image resize!!!!!!!!");
-                Console.WriteLine();
-                Console.ResetColor();
+                Bitmap images = new Bitmap(image);
+                Bitmap img = new Bitmap(images, new Size(width, height));
+                count++;
+                img.Save($"{path2}\\final {count} .jpg");
+
             }
+
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("All image resize!!!!!!!!");
+            Console.WriteLine();
+            Console.ResetColor();
+
         }
-        public static void Rename(object x)
+        public static void Rename(object name)
         {
-            lock (locker)
+            int count = 0;
+            string[] images = Directory.GetFiles(path2);
+
+            foreach (var item in images)
             {
-                int count = 0;
-                string[] images = Directory.GetFiles(path2);
-
-                foreach (var item in images)
-                {
-                    count++;
-                    File.Move(item, $"{path2}\\{x} {count} .jpg");
-                }
-
-                Console.WriteLine();
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("All image rename!!!!");
-                Console.WriteLine();
-                Console.ResetColor();
+                count++;
+                File.Move(item, $"{path2}\\{(string)name} {count} .jpg");
             }
+
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("All image rename!!!!");
+            Console.WriteLine();
+            Console.ResetColor();
         }
     }
 }
