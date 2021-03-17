@@ -59,7 +59,6 @@ namespace ConsoleApp14
             Console.ForegroundColor = ConsoleColor.Magenta;
             Console.WriteLine("Press enter 1 - Resize all image");
             Console.WriteLine("Press enter 2 - Rename all image");
-            Console.WriteLine("Press enter 3 - Cancel Resize");
             Console.WriteLine("Press enter 4 - Exit");
         }
 
