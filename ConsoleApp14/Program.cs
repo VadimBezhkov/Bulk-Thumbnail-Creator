@@ -31,8 +31,10 @@ namespace ConsoleApp14
                     case Operation.Resize:
                         {
                             start.ResizeParametrs();
+
                             Task task = new Task(() => ManagerProgramm.Resize(token));
                             task.Start();
+
                             Console.WriteLine("Enter Y to cancel the operation:");
                             string s = Console.ReadLine();
                             if (s == "Y" || s == "y")
@@ -44,6 +46,7 @@ namespace ConsoleApp14
                         {
                             Console.WriteLine("Enter new name");
                             start.Name = Console.ReadLine();
+
                             Task task2 = new Task(ManagerProgramm.Rename, start.Name);
                             task2.Start();
                         }
