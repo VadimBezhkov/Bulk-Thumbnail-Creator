@@ -13,7 +13,6 @@ namespace ConsoleApp14
     {
         Resize = 1,
         Rename,
-        Cancel,
         Exit
     }
     internal class ManagerProgramm
