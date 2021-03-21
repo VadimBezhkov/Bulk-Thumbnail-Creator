@@ -9,12 +9,6 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp14
 {
-    enum Operation : byte
-    {
-        Resize = 1,
-        Rename,
-        Exit
-    }
     internal class ManagerProgramm
     {
         static object locker = new object();
