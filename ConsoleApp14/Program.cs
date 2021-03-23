@@ -28,6 +28,7 @@ namespace ConsoleApp14
 
                 switch (op)
                 {
+                    // Choise resize my images
                     case Operation.Resize:
                         {
                             start.ResizeParametrs();
@@ -42,6 +43,7 @@ namespace ConsoleApp14
                         }
 
                         break;
+                        //Choise rename my images
                     case Operation.Rename:
                         {
                             Console.WriteLine("Enter new name");
@@ -52,6 +54,7 @@ namespace ConsoleApp14
                         }
 
                         break;
+                        //exit this programm
                     case Operation.Exit:
                         Environment.Exit(0);
 

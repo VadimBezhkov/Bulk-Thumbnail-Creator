@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp14
 {
+    // My menu
     enum Operation : byte
     {
         Resize = 1,

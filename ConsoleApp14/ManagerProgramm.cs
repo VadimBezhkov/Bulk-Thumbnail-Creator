@@ -11,13 +11,16 @@ namespace ConsoleApp14
 {
     internal class ManagerProgramm
     {
+        //My variables
         static object locker = new object();
         static int width, height;
         static int count = 0;
+
         internal static string path { get; set; }
         internal static string path2 { get; set; }
-
         public string Name { get; set; }
+
+        // Add Constructor
         public ManagerProgramm(bool str)
         {
             path = System.Configuration.ConfigurationManager.AppSettings["mypath"];
@@ -33,10 +36,14 @@ namespace ConsoleApp14
                 Directory.CreateDirectory(path);
             }
         }
+
+        //Default constructor
         public ManagerProgramm()
         {
 
         }
+
+        //Homework information
         internal void Info()
         {
             Console.WriteLine(new string('-', 119));
@@ -46,6 +53,8 @@ namespace ConsoleApp14
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine(new string('-', 120));
         }
+
+        // Text menu info
         internal void ActionMenu()
         {
             Console.WriteLine();
@@ -55,6 +64,7 @@ namespace ConsoleApp14
             Console.WriteLine("Press enter 4 - Exit");
         }
 
+        //Checking and setting the image size
         internal void ResizeParametrs()
         {
             Console.WriteLine("Enter width");
@@ -64,6 +74,8 @@ namespace ConsoleApp14
             int.TryParse(Console.ReadLine(), out height);
 
         }
+
+        // Incorrect choice
         internal void Default()
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
@@ -72,6 +84,8 @@ namespace ConsoleApp14
             Console.WriteLine();
             Console.ResetColor();
         }
+
+        //Method change the image and copy to the selected folder
         public static void Resize(CancellationToken token)
         {
             string[] files = Directory.GetFiles(path);
@@ -101,8 +115,9 @@ namespace ConsoleApp14
             Console.WriteLine("All image resize!!!!!!!!");
             Console.WriteLine();
             Console.ResetColor();
-
         }
+
+        //Method rename my images
         public static void Rename(object name)
         {
             int count = 0;
