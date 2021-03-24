@@ -9,8 +9,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp14
 {
-
-    class Program
+    internal class Program
     {
         static void Main(string[] args)
         {
@@ -43,7 +42,7 @@ namespace ConsoleApp14
                         }
 
                         break;
-                        //Choise rename my images
+                    //Choise rename my images
                     case Operation.Rename:
                         {
                             Console.WriteLine("Enter new name");
@@ -54,7 +53,7 @@ namespace ConsoleApp14
                         }
 
                         break;
-                        //exit this programm
+                    //exit this programm
                     case Operation.Exit:
                         Environment.Exit(0);
 

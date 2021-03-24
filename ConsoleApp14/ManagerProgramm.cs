@@ -38,10 +38,8 @@ namespace ConsoleApp14
         }
 
         //Default constructor
-        public ManagerProgramm()
-        {
-
-        }
+        public ManagerProgramm() 
+        { }
 
         //Homework information
         internal void Info()
@@ -98,6 +96,7 @@ namespace ConsoleApp14
                     Console.WriteLine(new string('-', 119));
                     Console.WriteLine("Task canceled");
                     Console.WriteLine(new string('-', 119));
+
                     ManagerProgramm asd = new ManagerProgramm();
                     asd.ActionMenu();
                     return;
