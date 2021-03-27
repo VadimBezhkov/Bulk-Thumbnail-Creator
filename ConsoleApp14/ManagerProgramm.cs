@@ -11,35 +11,8 @@ namespace ConsoleApp14
 {
     internal class ManagerProgramm
     {
-        //My variables
-        static object locker = new object();
-        static int width, height;
-        static int count = 0;
-
-        internal static string path { get; set; }
-        internal static string path2 { get; set; }
-        public string Name { get; set; }
-
-        // Add Constructor
-        public ManagerProgramm(bool str)
-        {
-            path = System.Configuration.ConfigurationManager.AppSettings["mypath"];
-            path2 = System.Configuration.ConfigurationManager.AppSettings["resultpath"];
-
-            if (!Directory.Exists(path2))
-            {
-                Directory.CreateDirectory(path2);
-            }
-
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-        }
-
         //Default constructor
-        public ManagerProgramm() 
-        { }
+        public ManagerProgramm() { }
 
         //Homework information
         internal void Info()
@@ -52,6 +25,26 @@ namespace ConsoleApp14
             Console.WriteLine(new string('-', 120));
         }
 
+        //Result operation Rename
+        public void ResultRenameInfo()
+        {
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("All image rename!!!!");
+            Console.WriteLine();
+            Console.ResetColor();
+        }
+
+        //Result operation Resize
+        internal void ResultInfo()
+        {
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("All image resize!!!!!!!!");
+            Console.WriteLine();
+            Console.ResetColor();
+        }
+
         // Text menu info
         internal void ActionMenu()
         {
@@ -59,18 +52,7 @@ namespace ConsoleApp14
             Console.ForegroundColor = ConsoleColor.Magenta;
             Console.WriteLine("Press enter 1 - Resize all image");
             Console.WriteLine("Press enter 2 - Rename all image");
-            Console.WriteLine("Press enter 4 - Exit");
-        }
-
-        //Checking and setting the image size
-        internal void ResizeParametrs()
-        {
-            Console.WriteLine("Enter width");
-            int.TryParse(Console.ReadLine(), out width);
-
-            Console.WriteLine("Enter height");
-            int.TryParse(Console.ReadLine(), out height);
-
+            Console.WriteLine("Press enter 3 - Exit");
         }
 
         // Incorrect choice
@@ -79,58 +61,6 @@ namespace ConsoleApp14
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine();
             Console.WriteLine("Error enter number 1 or 2 or 3");
-            Console.WriteLine();
-            Console.ResetColor();
-        }
-
-        //Method change the image and copy to the selected folder
-        public static void Resize(CancellationToken token)
-        {
-            string[] files = Directory.GetFiles(path);
-
-            foreach (string image in files)
-            {
-                if (token.IsCancellationRequested)
-                {
-                    Console.Clear();
-                    Console.WriteLine(new string('-', 119));
-                    Console.WriteLine("Task canceled");
-                    Console.WriteLine(new string('-', 119));
-
-                    ManagerProgramm asd = new ManagerProgramm();
-                    asd.ActionMenu();
-                    return;
-                }
-
-                Bitmap images = new Bitmap(image);
-                Bitmap img = new Bitmap(images, new Size(width, height));
-                count++;
-                img.Save($"{path2}\\final {count} .jpg");
-
-            }
-
-            Console.WriteLine();
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("All image resize!!!!!!!!");
-            Console.WriteLine();
-            Console.ResetColor();
-        }
-
-        //Method rename my images
-        public static void Rename(object name)
-        {
-            int count = 0;
-            string[] images = Directory.GetFiles(path2);
-
-            foreach (var item in images)
-            {
-                count++;
-                File.Move(item, $"{path2}\\{(string)name} {count} .jpg");
-            }
-
-            Console.WriteLine();
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("All image rename!!!!");
             Console.WriteLine();
             Console.ResetColor();
         }

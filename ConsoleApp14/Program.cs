@@ -13,7 +13,8 @@ namespace ConsoleApp14
     {
         static void Main(string[] args)
         {
-            ManagerProgramm start = new ManagerProgramm(true);
+            ManagerProgramm start = new ManagerProgramm();
+            Images image = new Images(true);
             start.Info();
 
             while (true)
@@ -30,9 +31,9 @@ namespace ConsoleApp14
                     // Choise resize my images
                     case Operation.Resize:
                         {
-                            start.ResizeParametrs();
+                            image.ResizeParametrs();
 
-                            Task task = new Task(() => ManagerProgramm.Resize(token));
+                            Task task = new Task(() => Images.Resize(token));
                             task.Start();
 
                             Console.WriteLine("Enter Y to cancel the operation:");
@@ -46,9 +47,9 @@ namespace ConsoleApp14
                     case Operation.Rename:
                         {
                             Console.WriteLine("Enter new name");
-                            start.Name = Console.ReadLine();
+                            image.Name = Console.ReadLine();
 
-                            Task task2 = new Task(ManagerProgramm.Rename, start.Name);
+                            Task task2 = new Task(Images.Rename, image.Name);
                             task2.Start();
                         }
 
