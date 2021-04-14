@@ -13,57 +13,7 @@ namespace ConsoleApp14
     {
         static void Main(string[] args)
         {
-            ManagerProgramm start = new ManagerProgramm();
-            Images image = new Images(true);
-            start.Info();
-
-            while (true)
-            {
-                start.ActionMenu();
-                CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
-                CancellationToken token = cancelTokenSource.Token;
-
-                Operation op;
-                Enum.TryParse(Console.ReadLine(), out op);
-
-                switch (op)
-                {
-                    // Choise resize my images
-                    case Operation.Resize:
-                        {
-                            image.ResizeParametrs();
-
-                            Task task = new Task(() => Images.Resize(token));
-                            task.Start();
-
-                            Console.WriteLine("Enter Y to cancel the operation:");
-                            string s = Console.ReadLine();
-                            if (s == "Y" || s == "y")
-                                cancelTokenSource.Cancel();
-                        }
-
-                        break;
-                    //Choise rename my images
-                    case Operation.Rename:
-                        {
-                            Console.WriteLine("Enter new name");
-                            image.Name = Console.ReadLine();
-
-                            Task task2 = new Task(Images.Rename, image.Name);
-                            task2.Start();
-                        }
-
-                        break;
-                    //exit this programm
-                    case Operation.Exit:
-                        Environment.Exit(0);
-
-                        break;
-                    default:
-                        start.Default();
-                        break;
-                }
-            }
+            new ManagerProgramm().StartProgramm();
         }
     }
 }

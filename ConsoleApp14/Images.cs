@@ -11,22 +11,23 @@ namespace ConsoleApp14
 {
     internal class Images
     {
+        public delegate void InfoUser();
+        public event InfoUser EventActionMenu, EventResultInfo, EventResultRenameInfo;
+
         //My variables
-        static int width, height;
+        public static int width { get; set; }
+        public static int height { get; set; }
+
         static int count = 0;
 
         internal static string path { get; set; }
         internal static string path2 { get; set; }
         public string Name { get; set; }
 
-        //Checking and setting the image size
-        internal void ResizeParametrs()
+        internal void ResizeParametrs(int width, int height)
         {
-            Console.WriteLine("Enter width");
-            int.TryParse(Console.ReadLine(), out width);
-
-            Console.WriteLine("Enter height");
-            int.TryParse(Console.ReadLine(), out height);
+            Images.width = width;
+            Images.height = height;
         }
 
         // Add Constructor
@@ -47,7 +48,7 @@ namespace ConsoleApp14
         }
 
         //Method Resize images
-        public static void Resize(CancellationToken token)
+        public void Resize(CancellationToken token)
         {
             string[] files = Directory.GetFiles(path);
 
@@ -55,13 +56,8 @@ namespace ConsoleApp14
             {
                 if (token.IsCancellationRequested)
                 {
-                    Console.Clear();
-                    Console.WriteLine(new string('-', 119));
-                    Console.WriteLine("Task canceled");
-                    Console.WriteLine(new string('-', 119));
-
-                    ManagerProgramm asd = new ManagerProgramm();
-                    asd.ActionMenu();
+                    if (EventActionMenu != null)
+                        EventActionMenu();
                     return;
                 }
 
@@ -71,12 +67,12 @@ namespace ConsoleApp14
                 img.Save($"{path2}\\final {count} .jpg");
             }
 
-            ManagerProgramm result = new ManagerProgramm();
-            result.ResultInfo();
+            if (EventResultInfo != null)
+                EventResultInfo();      
         }
 
         //Method rename my images
-        public static void Rename(object name)
+        public void Rename(object name)
         {
             int count = 0;
             string[] images = Directory.GetFiles(path2);
@@ -87,8 +83,7 @@ namespace ConsoleApp14
                 File.Move(item, $"{path2}\\{(string)name} {count} .jpg");
             }
 
-            ManagerProgramm result = new ManagerProgramm();
-            result.ResultRenameInfo();
+                EventResultRenameInfo?.Invoke();
         }
     }
 }
